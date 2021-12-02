@@ -2,6 +2,7 @@ def get_depth_increase_ct(depth_measurements, window_size=1):
     depth_increase_ct = 0
     for i in range(window_size, len(depth_measurements)):
         # The two windows almost entirely overlap
+        # so only need to compare the 2 non-overlapping values
         if depth_measurements[i] > depth_measurements[i - window_size]:
             depth_increase_ct += 1
     return depth_increase_ct
