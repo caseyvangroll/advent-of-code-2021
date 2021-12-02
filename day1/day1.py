@@ -1,4 +1,3 @@
-# Part 1
 def get_depth_increase_ct(depth_measurements, window_size=1):
     depth_increase_ct = 0
     for i in range(window_size, len(depth_measurements)):
@@ -13,8 +12,6 @@ def get_depth_increase_ct(depth_measurements, window_size=1):
         if cur_window_depth_sum > prev_window_depth_sum:
             depth_increase_ct += 1
     return depth_increase_ct
-
-# Part 2
 
 
 if __name__ == '__main__':
