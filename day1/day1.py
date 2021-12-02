@@ -1,12 +1,8 @@
 def get_depth_increase_ct(depth_measurements, window_size=1):
     depth_increase_ct = 0
     for i in range(window_size, len(depth_measurements)):
-        window_start_idx = i - window_size
-        window_end_idx = i
-        cur_window_depth = sum(depth_measurements[window_start_idx: window_end_idx])
-        prev_window_depth = sum(depth_measurements[window_start_idx - 1: window_end_idx - 1])
-
-        if cur_window_depth > prev_window_depth:
+        # The two windows almost entirely overlap
+        if depth_measurements[i] > depth_measurements[i - window_size]:
             depth_increase_ct += 1
     return depth_increase_ct
 
