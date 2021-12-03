@@ -1,7 +1,12 @@
 from collections import Counter
 
+if True:
+    x = 1
 
-def get_power_consumption(diagnostics):
+print(x)
+
+
+def analyze_diagnostics(diagnostics):
     gamma_rate = ''
     epsilon_rate = ''
 
@@ -19,11 +24,20 @@ def get_power_consumption(diagnostics):
         gamma_rate += most_common[0]
         epsilon_rate += least_common[0]
 
-    return int(gamma_rate, 2) * int(epsilon_rate, 2)
+    power_consumption = int(gamma_rate, 2) * int(epsilon_rate, 2)
+
+    # Use gamma_rate and epsilon_rate to find
+    oxygen_generator_rating = 0
+    co2_scrubber_rating = 0
+
+    life_support_rating = int(oxygen_generator_rating, 2) * int(co2_scrubber_rating, 2)
+
+    return power_consumption, life_support_rating
 
 
 if __name__ == '__main__':
     with open('./input.txt') as f:
         diagnostics = [line.strip() for line in f.readlines()]
-        power_consumption = get_power_consumption(diagnostics)
+        power_consumption, life_support_rating = analyze_diagnostics(diagnostics)
         print('Power consumption: {}'.format(power_consumption))
+        print('Life support rating: {}'.format(life_support_rating))
