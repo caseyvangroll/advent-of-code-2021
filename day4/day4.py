@@ -3,7 +3,8 @@ def bold(s):
 
 
 class BingoBoard():
-    def __init__(self, numbers):
+    def __init__(self, idx, numbers):
+        self.idx = idx
         self.numbers = [row.split() for row in numbers]
         self.marked_cells = [[False] * 5 for _ in range(5)]
 
@@ -13,24 +14,26 @@ class BingoBoard():
             for col_idx, cell in enumerate(row):
                 if cell == number:
                     self.marked_cells[row_idx][col_idx] = True
-                    has_win = self.check_win(row_idx, col_idx)
+                    has_win = has_win or self.check_win(row_idx, col_idx)
+                    if (self.idx == 3):
+                        print(number)
+                        print(self)
         return has_win
 
     def check_win(self, row_idx, col_idx):
-        row = self.marked_cells[row_idx]
-        col = [row[col_idx] for row in self.marked_cells]
-        return all(row) or all(col)
+        marked_row = self.marked_cells[row_idx]
+        marked_col = [row[col_idx] for row in self.marked_cells]
+        return all(marked_row) or all(marked_col)
 
     def print_win(self, last_called_number):
-        print('Winning board:')
-        print(self)
         sum_of_all_unmarked = 0
         for row_idx, row in enumerate(self.numbers):
             for col_idx, cell in enumerate(row):
                 if not self.marked_cells[row_idx][col_idx]:
                     sum_of_all_unmarked += int(cell)
         final_score = sum_of_all_unmarked * int(last_called_number)
-        print('Final score: {}'.format(final_score))
+        print('Board {} wins on {} with final score: {}'.format(self.idx, last_called_number, final_score))
+        print(self)
 
     def __str__(self):
         result = '\n'
@@ -47,7 +50,7 @@ class BingoBoard():
 def parseInput(lines):
     called_numbers = lines[0].split(',')
     bingo_board_inputs = [lines[i: i + 5] for i in range(1, len(lines), 5)]
-    bingo_boards = [BingoBoard(input) for input in bingo_board_inputs]
+    bingo_boards = [BingoBoard(idx, input) for idx, input in enumerate(bingo_board_inputs)]
     return called_numbers, bingo_boards
 
 
@@ -55,8 +58,14 @@ if __name__ == '__main__':
     with open('./input.txt') as f:
         called_numbers, bingo_boards = parseInput([line.strip() for line in f.readlines() if line.strip() != ''])
         for number in called_numbers:
+            boards_to_remove = []
             for board in bingo_boards:
-                board_has_win = board.check_number(number)
-                if board_has_win:
+                if board.check_number(number):
                     board.print_win(number)
-                    exit(0)
+                    boards_to_remove.append(board)
+
+            for board_to_remove in boards_to_remove:
+                bingo_boards.remove(board_to_remove)
+            if not len(bingo_boards):
+                print('No boards left.')
+                exit(0)
