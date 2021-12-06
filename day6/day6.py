@@ -1,11 +1,11 @@
-def get_fish_ct(current_fish_ages, day_ct):
+def get_fish_ct(fish_at_each_age, day_ct):
     while day_ct > 0:
-        birthing_fish_ct = current_fish_ages.pop(0)
-        current_fish_ages.append(birthing_fish_ct)
-        current_fish_ages[6] += birthing_fish_ct
+        birthing_fish_ct = fish_at_each_age.pop(0)
+        fish_at_each_age.append(birthing_fish_ct)
+        fish_at_each_age[6] += birthing_fish_ct
         day_ct -= 1
 
-    return sum(current_fish_ages)
+    return sum(fish_at_each_age)
 
 
 if __name__ == '__main__':
