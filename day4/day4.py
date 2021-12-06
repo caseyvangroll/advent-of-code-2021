@@ -47,7 +47,7 @@ class BingoBoard():
         return result
 
 
-def parseInput(lines):
+def parse_input(lines):
     called_numbers = lines[0].split(',')
     bingo_board_inputs = [lines[i: i + 5] for i in range(1, len(lines), 5)]
     bingo_boards = [BingoBoard(idx, input) for idx, input in enumerate(bingo_board_inputs)]
@@ -56,7 +56,7 @@ def parseInput(lines):
 
 if __name__ == '__main__':
     with open('./input.txt') as f:
-        called_numbers, bingo_boards = parseInput([line.strip() for line in f.readlines() if line.strip() != ''])
+        called_numbers, bingo_boards = parse_input([line.strip() for line in f.readlines() if line.strip() != ''])
         for number in called_numbers:
             boards_to_remove = []
             for board in bingo_boards:
