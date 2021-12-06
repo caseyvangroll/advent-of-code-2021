@@ -15,9 +15,6 @@ class BingoBoard():
                 if cell == number:
                     self.marked_cells[row_idx][col_idx] = True
                     has_win = has_win or self.check_win(row_idx, col_idx)
-                    if (self.idx == 3):
-                        print(number)
-                        print(self)
         return has_win
 
     def check_win(self, row_idx, col_idx):
