@@ -1,3 +1,27 @@
+
+# Algorithm:
+#   Take turns moving in outermost crabs until all crabs in one spot.
+#   If one side costs less to move in then only move that side.
+#   Doesn't work for even-length symmetrical crab positions
+#   but behavior for that scenario is undefined for that in problem
+
+# Given the sample input [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]...
+# (each crab position is an array of how much fuel it has spent to get each crab there)
+# [[0], [0, 0], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0], [], [0]]
+# [[], [0, 0, 1], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0], [1], []]
+# [[], [0, 0, 1], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0, 2], [], []]
+# [[], [], [0, 0, 0, 1, 1, 2], [], [0], [], [], [0], [], [], [], [], [], [1, 3], [], [], []]
+# [[], [], [0, 0, 0, 1, 1, 2], [], [0], [], [], [0], [], [], [], [], [2, 4], [], [], [], []]
+# [[], [], [0, 0, 0, 1, 1, 2], [], [0], [], [], [0], [], [], [], [3, 5], [], [], [], [], []]
+# [[], [], [], [1, 1, 1, 2, 2, 3], [0], [], [], [0], [], [], [4, 6], [], [], [], [], [], []]
+# [[], [], [], [1, 1, 1, 2, 2, 3], [0], [], [], [0], [], [5, 7], [], [], [], [], [], [], []]
+# [[], [], [], [1, 1, 1, 2, 2, 3], [0], [], [], [0], [6, 8], [], [], [], [], [], [], [], []]
+# [[], [], [], [], [0, 2, 2, 2, 3, 3, 4], [], [], [0, 7, 9], [], [], [], [], [], [], [], [], []]
+# [[], [], [], [], [0, 2, 2, 2, 3, 3, 4], [], [1, 8, 10], [], [], [], [], [], [], [], [], [], []]
+# [[], [], [], [], [0, 2, 2, 2, 3, 3, 4], [2, 9, 11], [], [], [], [], [], [], [], [], [], [], []]
+# [[], [], [], [], [0, 2, 2, 2, 3, 3, 4], [2, 9, 11], [], [], [], [], [], [], [], [], [], [], []]
+# [[], [], [], [], [], [2, 9, 11, 1, 3, 3, 3, 4, 4, 5], [], [], [], [], [], [], [], [], [], [], []]
+
 def calculate_alignment_fuel_cost(min_crab_position, max_crab_position, crabs_in_each_position):
     fuel_cost = 0
     while min_crab_position != max_crab_position:
@@ -38,12 +62,9 @@ def get_crabs_in_each_position(input):
             crabs_in_each_position += [[] for _ in range(len_difference)]
         crabs_in_each_position[crab_position].append(0)
 
-    # each crab position is an array of how much fuel it has spent to get each crab there
     return min_crab_position, max_crab_position, crabs_in_each_position
 
 
-# Note: doesn't work for even-length symmetrical crab positions
-# but behavior for that scenario is undefined for that in problem
 if __name__ == '__main__':
     with open('./input.txt') as f:
         input = f.readline().strip().split(',')
