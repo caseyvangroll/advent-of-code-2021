@@ -2,8 +2,7 @@
 # Algorithm:
 #   Take turns moving in outermost crabs until all crabs in one spot.
 #   If one side costs less to move in then only move that side.
-#   Doesn't work for even-length symmetrical crab positions
-#   but behavior for that scenario is undefined for that in problem
+#   Doesn't work for even-length symmetrical crab positions.
 
 # Given the sample input [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]...
 # (each crab position is an array of how much fuel it has spent to get each crab there)
