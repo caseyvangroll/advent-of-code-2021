@@ -5,7 +5,7 @@
 #   Doesn't work for when the optimal spot to move to could be 2 spaces (evenly-distributed even-length distributions)
 
 # Given the sample input [16, 1, 2, 0, 4, 2, 7, 1, 2, 14]...
-# (each crab position is an array of how much fuel it has spent to get each crab there)
+# (each position is an array of how much fuel it has spent to get each crab there)
 # [[0], [0, 0], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0], [], [0]]
 # [[], [0, 0, 1], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0], [1], []]
 # [[], [0, 0, 1], [0, 0, 0], [], [0], [], [], [0], [], [], [], [], [], [], [0, 2], [], []]
