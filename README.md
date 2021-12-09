@@ -12,4 +12,5 @@ See https://adventofcode.com/
 | 5   | Hydrothermal Venture    | [day5.py](./day5/day5.py) |
 | 6   | Lanternfish             | [day6.py](./day6/day6.py) |
 | 7   | The Treachery of Whales | [day7.py](./day7/day7.py) |
-| 7   | Seven Segment Search    | [day8.py](./day8/day8.py) |
+| 8   | Seven Segment Search    | [day8.py](./day8/day8.py) |
+| 9   | Smoke Basin             | [day9.py](./day9/day9.py) |
