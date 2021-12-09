@@ -1,4 +1,28 @@
+import pdb
 from functools import reduce
+
+UP = 'UP'
+RIGHT = 'RIGHT'
+DOWN = 'DOWN'
+LEFT = 'LEFT'
+DIRECTIONS = [UP, RIGHT, DOWN, LEFT]
+
+
+def get_adjacent_cell(rows, x, y, dir):
+    adj_x = x
+    adj_y = y
+    adj_cell = None
+    if dir == UP:
+        adj_y -= 1
+    if dir == RIGHT:
+        adj_x += 1
+    if dir == DOWN:
+        adj_y += 1
+    if dir == LEFT:
+        adj_x -= 1
+    if 0 <= adj_y < len(rows) and 0 <= adj_x < len(rows[0]):
+        adj_cell = rows[adj_y][adj_x]
+    return adj_x, adj_y, adj_cell
 
 
 def get_low_points(rows):
@@ -6,42 +30,31 @@ def get_low_points(rows):
     for y in range(len(rows)):
         for x in range(len(rows[y])):
             cell = rows[y][x]
-            is_lower_than_up = y <= 0 or rows[y - 1][x] > cell
-            is_lower_than_right = x >= len(rows[y]) - 1 or rows[y][x + 1] > cell
-            is_lower_than_down = y >= len(rows) - 1 or rows[y + 1][x] > cell
-            is_lower_than_left = x <= 0 or rows[y][x - 1] > cell
-            if all([is_lower_than_up, is_lower_than_right, is_lower_than_down, is_lower_than_left]):
+            adjacent_cells = [get_adjacent_cell(rows, x, y, dir) for dir in DIRECTIONS]
+            if all([adj_cell is None or cell < adj_cell for adj_x, adj_y, adj_cell in adjacent_cells]):
                 low_points.append((x, y))
 
     return low_points
 
 
 def get_basin(rows, low_point):
-    cells_in_basin = [low_point]
-    cells_to_check = [low_point]
-    cells_seen = dict()
+    cells_in_basin = set([low_point])
+    cells_to_check = set([low_point])
+    cells_checked = set()
 
     while len(cells_to_check):
-        x, y = cells_to_check.pop(0)
-        if str((x, y)) not in cells_seen:
-            cells_seen[str((x, y))] = True
-            is_up_in_basin = y > 0 and rows[y - 1][x] > rows[y][x] and rows[y - 1][x] != 9
-            is_right_in_basin = x < len(rows[y]) - 1 and rows[y][x + 1] > rows[y][x] and rows[y][x + 1] != 9
-            is_down_in_basin = y < len(rows) - 1 and rows[y + 1][x] > rows[y][x] and rows[y + 1][x] != 9
-            is_left_in_basin = x > 0 and rows[y][x - 1] > rows[y][x] and rows[y][x - 1] != 9
+        x, y = cells_to_check.pop()
+        if str((x, y)) not in cells_checked:
+            cell = rows[y][x]
+            cells_checked.add(str((x, y)))
 
-            if is_up_in_basin and str((y - 1, x)) not in cells_seen:
-                cells_in_basin.append((y - 1, x))
-                cells_to_check.append((y - 1, x))
-            if is_right_in_basin and str((y, x + 1)) not in cells_seen:
-                cells_in_basin.append((y, x + 1))
-                cells_to_check.append((y, x + 1))
-            if is_down_in_basin and str((y + 1, x)) not in cells_seen:
-                cells_in_basin.append((y + 1, x))
-                cells_to_check.append((y + 1, x))
-            if is_left_in_basin and str((y, x - 1)) not in cells_seen:
-                cells_in_basin.append((y, x - 1))
-                cells_to_check.append((y, x - 1))
+            adjacent_cells = [get_adjacent_cell(rows, x, y, dir) for dir in DIRECTIONS]
+            for adj_x, adj_y, adj_cell in adjacent_cells:
+                already_checked = str((adj_x, adj_y)) in cells_checked
+                is_part_of_basin = adj_cell != None and adj_cell != '9' and cell < adj_cell
+                if not already_checked and is_part_of_basin:
+                    cells_in_basin.add((adj_x, adj_y))
+                    cells_to_check.add((adj_x, adj_y))
 
     return cells_in_basin
 
@@ -54,7 +67,6 @@ if __name__ == '__main__':
         print("Sum of risk level of low points: {}".format(low_point_risk_level_sum))
 
         basins = [get_basin(rows, low_point) for low_point in low_points]
-        three_largest_basin_sizes = [len(basin) for basin in basins[-3]]
-        print("Product of three largest basin sizes: {}".format(reduce(lambda acc, x: acc + x, three_largest_basin_sizes, 1)))
-
-# not 73
+        basin_sizes = sorted([len(basin) for basin in basins])
+        sum_of_three_largest_basin_sizes = reduce(lambda acc, x: acc * x, basin_sizes[-3:], 1)
+        print("Product of three largest basin sizes: {}".format(sum_of_three_largest_basin_sizes))
