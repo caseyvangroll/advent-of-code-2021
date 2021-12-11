@@ -15,3 +15,4 @@ See https://adventofcode.com/
 | 8   | Seven Segment Search    | [day8.py](./day8/day8.py)    |
 | 9   | Smoke Basin             | [day9.py](./day9/day9.py)    |
 | 10  | Syntax Scoring          | [day10.py](./day10/day10.py) |
+| 11  | Dumbo Octopus           | [day11.py](./day11/day11.py) |
