@@ -17,3 +17,4 @@ See https://adventofcode.com/
 | 10  | Syntax Scoring          | [day10.py](./day10/day10.py) |
 | 11  | Dumbo Octopus           | [day11.py](./day11/day11.py) |
 | 12  | Passage Pathing         | [day12.py](./day12/day12.py) |
+| 13  | Transparent Origami     | [day13.py](./day13/day13.py) |
