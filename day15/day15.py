@@ -25,9 +25,9 @@ if __name__ == '__main__':
 #   grab shortest_paths_to_explore from paths_to_explore
 #   for each path in shortest_paths_to_explore:
 #     determine next node(s) to explore in path (whichever nodes path hasn't seen AND result in lowest value for path AND haven't been visited by another shorter path)
-#     if next node(s) includes end node stop and return this path
 #     next_paths = this path + next node(s)
 #     for next_path in next_paths:
+#       if ending in lower-right corner -> stop and return this path's cost
 #       if ending in a node that hasn't been visited before or has only been visited by a longer path:
 #         update shortest_paths_to_each_cell to contain this path's cost
-#     drop next_pathsinto paths_to_explore along with their corresponding costs
+#     drop next_paths into paths_to_explore along with their corresponding costs
