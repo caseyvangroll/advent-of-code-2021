@@ -9,4 +9,8 @@ if __name__ == '__main__':
         print('Lowest risk path: {}'.format(lowest_risk_path))
 
 
-# plan: breadth-first search, keep shortest path to get to each cell
+# plan:
+#   1. maintain list of explored paths (breadth-first)
+#   2. only ever explore shortest path(s) in list of paths to explore
+#   3. maintain marker at each cell with whether it's been visited before and the cost of its previous visit (use this to prune paths to explore)
+#   4. if see goal then have found shortest path (because of #2)
