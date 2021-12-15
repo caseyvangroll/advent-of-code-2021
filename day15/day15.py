@@ -1,33 +1,74 @@
+from collections import namedtuple
+from queue import PriorityQueue
+
+Path = namedtuple('Path', 'cost prev_cell')
+
+
 def find_lowest_risk_path(grid):
-    print(grid)
+    width = len(grid[0])
+    height = len(grid)
+
+    paths_to_explore = PriorityQueue(0)
+    paths_to_explore.put((grid[1][0], (0, 1)))
+    paths_to_explore.put((grid[0][1], (1, 0)))
+
+    best_paths = [[Path(None, None)] * width for _ in range(height)]
+    best_paths[1][0] = Path(grid[1][0], (0, 0))
+    best_paths[0][1] = Path(grid[0][1], (0, 0))
+
+    seen = dict()
+    seen[(0, 0)] = True
+    seen[(1, 0)] = True
+    seen[(0, 1)] = True
+
+    while paths_to_explore.qsize() > 0:
+        cost, (x, y) = paths_to_explore.get()
+
+        def check_adjacent_cell(x2, y2):
+            if 0 <= x2 < width and 0 <= y2 < height and (
+                best_paths[y2][x2].cost == None or
+                cost + grid[y2][x2] < best_paths[y2][x2].cost
+            ):
+                best_paths[y2][x2] = Path(cost + grid[y2][x2], (x2, y2))
+                if x2 == width - 1 and y2 == height - 1:
+                    return cost + grid[y2][x2]
+                if (x2, y2) not in seen:
+                    seen[(x2, y2)] = True
+                    paths_to_explore.put((cost + grid[y2][x2], (x2, y2)))
+
+        finishing_costs = [
+            finishing_cost for finishing_cost in [
+                check_adjacent_cell(x, y - 1),
+                check_adjacent_cell(x + 1, y),
+                check_adjacent_cell(x, y + 1),
+                check_adjacent_cell(x - 1, y)
+            ] if finishing_cost != None
+        ]
+
+        if any(finishing_costs):
+            return finishing_costs[0]
+
+
+def quintuple_size(grid):
+    quintuple_width_grid = []
+    for row in grid:
+        new_row = [x for x in row]
+        for i in range(1, 5):
+            new_row += [(x + i) % 9 if x + i > 9 else x + i for x in row]
+        quintuple_width_grid.append(new_row)
+
+    quintuple_grid = []
+    for i in range(0, 5):
+        for row in quintuple_width_grid:
+            quintuple_grid.append([(x + i) % 9 if x + i > 9 else x + i for x in row])
+
+    return quintuple_grid
 
 
 if __name__ == '__main__':
-    with open('./sample_input.txt') as f:
+    with open('./input.txt') as f:
         grid = [[int(cell) for cell in line.strip()] for line in f.readlines()]
         lowest_risk_path = find_lowest_risk_path(grid)
         print('Lowest risk path: {}'.format(lowest_risk_path))
-
-
-# plan:
-#   1. maintain list of explored paths (breadth-first)
-#   2. only ever explore shortest path(s) in list of paths to explore
-#   3. maintain marker at each cell with whether it's been visited before and the cost of its previous visit (use this to prune paths to explore)
-#   4. if see goal then have found shortest path (because of #2)
-
-# pseudocode:
-
-# paths_to_explore = []
-# shortest_paths_to_each_cell = Infinity for each cell
-# push first 2 paths from upper right into paths_to_explore
-
-# while len(paths_to_explore):
-#   grab shortest_paths_to_explore from paths_to_explore
-#   for each path in shortest_paths_to_explore:
-#     determine next node(s) to explore in path (whichever nodes path hasn't seen AND result in lowest value for path AND haven't been visited by another shorter path)
-#     next_paths = this path + next node(s)
-#     for next_path in next_paths:
-#       if ending in lower-right corner -> stop and return this path's cost
-#       if ending in a node that hasn't been visited before or has only been visited by a longer path:
-#         update shortest_paths_to_each_cell to contain this path's cost
-#     drop next_paths into paths_to_explore along with their corresponding costs
+        lowest_risk_path_2 = find_lowest_risk_path(quintuple_size(grid))
+        print('Lowest risk path in expanded grid: {}'.format(lowest_risk_path_2))
