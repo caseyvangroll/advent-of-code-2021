@@ -60,11 +60,8 @@ def decode(binary_str):
     packet_body = binary_str[6:]
 
     if packet_type == LITERAL:
-        packet, remaining_body = parse_literal(packet_version, packet_body)
-    else:
-        packet, remaining_body = parse_operator(packet_version, packet_type, packet_body)
-
-    return packet, remaining_body
+        return parse_literal(packet_version, packet_body)
+    return parse_operator(packet_version, packet_type, packet_body)
 
 
 def add_up_versions(packet):
