@@ -21,3 +21,4 @@ See https://adventofcode.com/
 | 14  | Extended Polymerization | [day14.py](./day14/day14.py) |
 | 15  | Chiton                  | [day15.py](./day15/day15.py) |
 | 16  | Packet Decoder          | [day16.py](./day16/day16.py) |
+| 17  | Trick Shot              | [day17.py](./day17/day17.py) |
