@@ -23,3 +23,4 @@ See https://adventofcode.com/
 | 16  | Packet Decoder          | [day16.py](./day16/day16.py) |
 | 17  | Trick Shot              | [day17.py](./day17/day17.py) |
 | 18  | Snailfish               | [day18.py](./day18/day18.py) |
+| 19  | Beacon Scanner          | [day19.py](./day19/day19.py) |
